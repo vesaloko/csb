@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>View all todos</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"> 
+  </head>
+  <body>
+
+<div class="todo box">
+    <h2>All TO DO:</h2>
+    <ul>
+        {% for todo in todos %}
+            <li>
+                 <a href="{% url 'viewtodo' todo.id %}">{{ todo.text }} - {% if todo.done %}Completed{% else %}Not completed{% endif %}</a>
+            </li>
+        {% empty %}
+            <li>No todos yet</li>
+        {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

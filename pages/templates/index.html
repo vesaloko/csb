@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>To Do -list</title>
+        <link rel="stylesheet" href="/static/styles.css">
+        <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"> 
+    </head>
+
+    <body>
+        <div class="title box">
+            <h1>To Do -list</h1>
+            <p>
+               Here you may control your To Dos
+            </p>
+            <a href="{% url 'viewall' %}">View all todos</a>
+        </div>
+
+        <div class="todo box">
+            <h2>TO DO:</h2>
+            <ul>
+                {% for todo in todos %}
+                    <li>
+                         <a href="{% url 'viewtodo' todo.id %}">{{ todo.text }} - {% if todo.done %}Completed{% else %}Not completed{% endif %}</a>
+                    </li>
+                {% empty %}
+                    <li>No todos yet</li>
+                {% endfor %}
+                </ul>
+    
+        <div class="add box">
+            <h2>Add Todo:</h2>
+            <form action="/addtodo" method="get"> <!--FLAW 2&3: FIX: Change method to POST -->
+                <!-- FIX 4: {% csrf_token %} -->
+                <input type="hidden" name="user" value="{{currentuser}}" /> 
+                <textarea id="todo" name="todo" type="text" maxlength=200 placeholder="Insert todo"></textarea><br>
+                <label for="done">Is this completed:<label>
+                    <input id="done" name="done" type="checkbox"><br>
+                <input id="submit" type="submit" value="Add new todo"><br>
+            </form>
+        </div>
+    </body>
+</html>

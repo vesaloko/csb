@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ todo.text | safe }}</title>
+</head>
+<body>
+    <h1>{{ todo.text | safe }}</h1> 
+            <!-- FLAW 5: FIX: replace "safe" with "escape" -->
+            <!-- <h1>{{ todo.text | escape }}</h1> -->
+    <p>Status: {% if todo.done %}Completed{% else %}Not completed{% endif %}</p>
+    
+    <h2>Delete Todo:</h2>
+    <form action='/deletetodo/' method="POST"> 
+        {% csrf_token %}
+        <input type="hidden" name="id" value= "{{ todo.id }} "/>
+        <input type="submit" value="Delete this todo"/>
+    </form>
+</div>
+    <a href="{% url 'index' %}">Back to list</a>
+</body>
+</html>
