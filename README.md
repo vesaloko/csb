@@ -4,6 +4,7 @@ To install and test this project, the installations required on the course shoul
 Then make the necessary migrations:
 ```
 python3 manage.py migrate
+python3 runserver
 ```
 
 After which the website should be found from your localhost. There are a few possible users you may login:
@@ -30,7 +31,7 @@ https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pa
 
 Sensitive Data Exposure is a vulnerability where sensitive user data is improperly protected, increasing the likelihood of unauthorized access or data leaks, mentioned in OWASP list of 2017. [2]  
 
-In this project data exposure occurs in two ways: first, the addtodo function uses a GET request, which exposes user data such as the username and todo fields in the URL. This approach increases the risk of sensitive data leakage, as URLs can be stored in browser history and logged by network servers. Second, allowing access to user data in the viewtodo function, only by guessing the correct IDs and URL, which could allow attackers to guess and access other users' to-do items. For example http://127.0.0.1:8000/viewtodo/22/ . If users trust the application and adds personal details in their to-dos, it risks leaking sensitive information to unauthorized users. 
+In this project data exposure occurs in two ways: first, the addtodo function uses a GET request, which exposes user data such as the username and todo fields in the URL. This approach increases the risk of sensitive data leakage, as URLs can be stored in browser history and logged by network servers. Second, allowing access to user data in the viewtodo function, only by guessing the correct IDs and URL, which could allow attackers to guess and access other users' to-do items. For example http://127.0.0.1:8000/viewtodo/47/ . If users trust the application and adds personal details in their to-dos, it risks leaking sensitive information to unauthorized users. 
 
 ### How to Fix: 
 This flaw could be fixed by switching to POST requests instead of GET requests, as shown in https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L33C1-L46C1 and https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/templates/index.html#L32. In addition, access control should be developed further, which is discussed in the next section. Encrypting or use of HTTPS protocol especially with sensitive data would provide further security, making the data unusable to attackers even if they gain unauthorized access.  
