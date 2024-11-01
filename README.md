@@ -12,24 +12,34 @@ After which the website should be found from your localhost. There are a few pos
 
 
 **FLAW 1:  Injection **
-Code Location: https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L62
+Code Location: 
+https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L62
+
 Injection is a flaw, where malicious data is injected through unsanitized data input field in an application. SQL injection vulnerabilities occur when user input is directly embedded into SQL queries without validation or sanitization. When unsanitized input is executed as part of a query, it allows attackers to inject malicious SQL commands, potentially leading to unauthorized data access, data manipulation, or even deletion of database tables. [1] 
 In this project, the viewall function uses user input directly within a raw SQL query, making it vulnerable to SQL injection. The function allows users to pass in parameters through the text parameter, which is then directly formatted into the SQL command. For example with URL http://localhost:8000/viewall/?text=' OR '1'='1 , user can reach all todos of all users. 
 
 **How to Fix: **
-This vulnerability can be fixed by using Django's Object Related Mapping ORM, which includes further protection. In this case, Django’s method filter could be used, as shown in https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L63.  
+This vulnerability can be fixed by using Django's Object Related Mapping ORM, which includes further protection. In this case, Django’s method filter could be used, as shown in https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L63
+
+
+
 
 **FLAW 2: Sensitive Data Exposure **
 **Code Locations: **
-addtodo function: sends sensitive user data via a GET request https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L21C1-L31C29
+addtodo function: sends sensitive user data via a GET request 
+https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L21C1-L31C29
 viewtodo function: allows access to todos via predictable URLs without verifying ownership https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L69
 
 Sensitive Data Exposure is a vulnerability where sensitive user data is improperly protected, increasing the likelihood of unauthorized access or data leaks, mentioned in OWASP list of 2017. [2]  
 In this project data exposure occurs in two ways: first, the addtodo function uses a GET request, which exposes user data such as the username and todo fields in the URL. This approach increases the risk of sensitive data leakage, as URLs can be stored in browser history and logged by network servers. Second, allowing access to user data in the viewtodo function, only by guessing the correct IDs and URL, which could allow attackers to guess and access other users' to-do items. For example http://127.0.0.1:8000/viewtodo/22/ . If users trust the application and adds personal details in their to-dos, it risks leaking sensitive information to unauthorized users. 
 
 **How to Fix: **
-This flaw could be fixed by switching to POST requests instead of GET requests, as shown in https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L33C1-L46C1 and https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/templates/index.html#L32. In addition, access control should be developed further, which is discussed in the next section. Encrypting or use of HTTPS protocol especially with sensitive data would provide further security, making the data unusable to attackers even if they gain unauthorized access.  
- 
+This flaw could be fixed by switching to POST requests instead of GET requests, as shown in https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L33C1-L46C1 and https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/templates/index.html#L32
+In addition, access control should be developed further, which is discussed in the next section. Encrypting or use of HTTPS protocol especially with sensitive data would provide further security, making the data unusable to attackers even if they gain unauthorized access.  
+
+
+
+ 
 **FLAW 3: Broken Access Control **
 **Code Locations: **
 addtodo function allows adding to-dos by specifying any username in the URL, rather than authenticating as the correct user: https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L21C1-L31C29
@@ -42,6 +52,9 @@ Broken access control is a vulnerability that enables users to act outside their
 This could be fixed by using request.user instead of allowing user in GET parameters, https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L38. This ensures that only the authenticated user can modify their data. Besides, @login_required tags should be uncommented, https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L48. Lastly, the ownership of the todo should be validated by checking that request.user matches the owner of the todo, if nessecary: https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L52. 
 One solution to enhanced access control is shown in the function deletetodo, where is implemented both fixes, POST requests and authentication of the user with request.user. 
 **
+
+
+
 FLAW 4: Cross-Site Request Forgery (CSRF) 
 Code Locations: **
 https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/templates/viewtodo.html#L14
@@ -52,7 +65,10 @@ This project lacks both,  some ‘csrf_token’ -tags in the HTML, but also ‘@
 
 **How to Fix: **
 This could be fixed by adding {% csrf_token %} to all HTML forms that submit data via POST requests. In addition, @csrf_protect should be enabled in all functions where sensitive actions occur. Lastly, ’csrf_exempt’ -tag should be removed. Fixes have been implemented as comments, for example https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L19 . 
- 
+
+
+
+ 
 **FLAW 5: Cross-Site Scripting (XSS) 
 Code Location:**  https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/templates/viewtodo.html#L7
 
