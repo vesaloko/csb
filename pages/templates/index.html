@@ -30,7 +30,7 @@
         <div class="add box">
             <h2>Add Todo:</h2>
             <form action="/addtodo" method="get"> <!--FLAW 2&3: FIX: Change method to POST -->
-                <!-- FIX 4: {% csrf_token %} -->
+                <!-- FLAW 4: FIX: {% csrf_token %} -->
                 <input type="hidden" name="user" value="{{currentuser}}" /> 
                 <textarea id="todo" name="todo" type="text" maxlength=200 placeholder="Insert todo"></textarea><br>
                 <label for="done">Is this completed:<label>

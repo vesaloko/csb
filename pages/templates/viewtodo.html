@@ -11,7 +11,7 @@
     
     <h2>Delete Todo:</h2>
     <form action='/deletetodo/' method="POST"> 
-        {% csrf_token %}
+    <!-- FLAW 4: FIX: {% csrf_token %} -->
         <input type="hidden" name="id" value= "{{ todo.id }} "/>
         <input type="submit" value="Delete this todo"/>
     </form>

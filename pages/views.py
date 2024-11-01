@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect 
 from django.views.decorators.csrf import csrf_exempt
 from .models import Todo
 from django.contrib.auth.models import User
@@ -59,9 +59,9 @@ def deletetodo(request):
 # FLAW 3: FIX: @login_required
 def viewall(request):
     text = request.GET.get("text") 
-    todo = Todo.objects.raw("SELECT * FROM pages_todo WHERE owner_id = {} OR text LIKE '%{}%'".format(request.user.id, text)) # FLAW 1: SQL injection
-    # FLAW 1: FIX: todo = Todo.objects.filter(owner=request.user)
-    return render(request, 'viewall.html', {'todo': todo})
+    todos = Todo.objects.raw("SELECT * FROM pages_todo WHERE owner_id = {} OR text LIKE '%{}%'".format(request.user.id, text)) # FLAW 1: SQL injection
+    # FLAW 1: FIX: todos = Todo.objects.filter(owner=request.user)
+    return render(request, 'viewall.html', {'todos': todos})
 
 
 # FLAW 3: FIX: @login_required
@@ -69,5 +69,3 @@ def viewtodo(request, todo_id):
     todo = Todo.objects.get(id=todo_id) # FLAW 2: Sensitive data exposure
     # FLAW 2 & 3: FIX: todo = Todo.objects.get(id=todo_id, owner=request.user)
     return render(request, 'viewtodo.html', {'todo': todo})
-
-
