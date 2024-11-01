@@ -3,7 +3,6 @@ To install and test this project, the installations required on the course shoul
 
 Then make the necessary migrations:
 ```
-python3 manage.py makemigrations
 python3 manage.py migrate
 ```
 
