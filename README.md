@@ -1,14 +1,18 @@
 I have created this project to serve the purpose of the first course project for the Cyber Security Base 2024 at the Open University of Helsinki. This project aims to outline five different flaws from the OWASP 2017 top ten list, and their fixes, in a form of To do list -web application. This project is backend focused. 
-To install and test this project, the installations required on the course should be enabled. First, you may clone this project. 
-Then make the necessary migrations:
+To install and test this project, the installations required on the course should be enabled. First, you may clone this project.
 
-Python3 manage.py makemigrations
-Python3 manage.py migrate
+Then make the necessary migrations:
+```
+python3 manage.py makemigrations
+python3 manage.py migrate
+```
 
 After which the website should be found from your localhost. There are a few possible users you may login:
-
-
-
+```
+alice - redqueen
+admin - pass
+bob - squarepants
+```
 
 # FLAW 1:  Injection 
 ### Code Location: https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L62
