@@ -1,5 +1,7 @@
-I have created this project to serve the purpose of the first course project for the Cyber Security Base 2024 at the Open University of Helsinki. This project aims to outline five different flaws from the OWASP 2017 top ten list, and their fixes, in a form of To do list -web application. This project is backend focused. 
-To install and test this project, the installations required on the course should be enabled. First, you may clone this project.
+This project was created for the first course project of the Cyber Security Base 2024 at the Open University of Helsinki. It demonstrates and describes five distinct security flaws from the OWASP Top Ten 2017 list, along with their respective fixes, implemented within a backend-focused To-Do List web application.
+
+To install and test this project, ensure that you have completed the course’s required installations. 
+To access the application, you may clone this project repository.
 
 Then make the necessary migrations:
 ```
@@ -7,7 +9,9 @@ python3 manage.py migrate
 python3 runserver
 ```
 
-After which the website should be found from your localhost. There are a few possible users you may login:
+After which the website should be found from your localhost http://localhost:8000. 
+
+There are a few possible users you may login:
 ```
 alice - redqueen
 admin - pass
