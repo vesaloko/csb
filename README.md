@@ -6,7 +6,7 @@ To access the application, you may clone this project repository.
 Then make the necessary migrations:
 ```
 python3 manage.py migrate
-python3 runserver
+python3 manage.py runserver
 ```
 
 After which the website should be found from your localhost http://localhost:8000. 
