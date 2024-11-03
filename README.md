@@ -19,7 +19,7 @@ bob - squarepants
 
 Injection is a flaw, where malicious data is injected through unsanitized data input field in an application. SQL injection vulnerabilities occur when user input is directly embedded into SQL queries without validation or sanitization. When unsanitized input is executed as part of a query, it allows attackers to inject malicious SQL commands, potentially leading to unauthorized data access, data manipulation, or even deletion of database tables. [1] 
 
-In this project, the viewall function uses user input directly within a raw SQL query, making it vulnerable to SQL injection. The function allows users to pass in parameters through the text parameter, which is then directly formatted into the SQL command. For example with http://localhost:8000/viewall/?text=' OR '1'='1 , attacker can reach all todos of all users. 
+In this project, the viewall function uses user input directly within a raw SQL query, making it vulnerable to SQL injection. The function allows users to pass in parameters through the text parameter, which is then directly formatted into the SQL command. For example with URL http://localhost:8000/viewall/?text=' OR '1'='1 , logged in user can reach all todos of all users. 
 
 ### How to Fix: 
 This vulnerability can be fixed by using Django's Object Related Mapping ORM, which includes further protection. In this case, Django’s method filter could be used, as shown in https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/views.py#L63 
