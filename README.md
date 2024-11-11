@@ -71,7 +71,7 @@ In Cross-Site Scripting attacks, malicious scripts are injected into trusted web
 In this project, an XSS vulnerability is present because todo.text is rendered with the safe filter in viewtodo.html. The safe filter marks content as safe and bypasses HTML escaping [5], allowing execution of arbitrary JavaScript if todo.text contains malicious code. This lack of proper sanitization for user-provided content leaves the application vulnerable to XSS.
 
 ### How to Fix: 
-This could be fixed by replacing {{ todo.text | safe }} with  Django’s built in escape filter{{ todo.text | escape }}, which will automatically sanitize the input by escaping HTML tags and special characters, preventing potential script injection. https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/templates/viewtodo.html#L7C1-L10C64
+This could be fixed by replacing {{ todo.text | safe }} with  Django’s built in escape filter{{ todo.text | escape }}, which will automatically sanitize the input by escaping HTML tags and special characters, preventing potential script injection. https://github.com/vesaloko/csb/blob/ec63fc400a5bd5763c03322b51f016e4a98ee623/pages/templates/viewtodo.html#L7C1-L10C64. In addition, here could have been an extra sanitation function in the views.py to address the issue in the backend code as well. 
 
 ____________________________________________________________
 [1] https://owasp.org/www-community/attacks/SQL_Injection 
